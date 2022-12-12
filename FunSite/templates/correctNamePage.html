@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <center>
+        <div style="padding:0.5em 0.5em"></div>
+        <form>
+            <h3 style="padding-bottom:0.5em">Around what time shall the movie begin?</h3>
+            <div class="form-group">
+                <div class="form-group-row">
+                    <p>*Mark all available times</p>
+                    <div class="form-item-set">
+                        <input type="checkbox" class="form-check-input" id="EightPMResp" name="EightPMResp">
+                        <label class="form-check-label">8:00pm</label>
+                    </div>
+                    <div class="form-item-set">
+                        <input type="checkbox" class="form-check-input" id="NinePMResp" name="NinePMResp">
+                        <label class="form-check-label">9:00pm</label>
+                    </div>
+                    <div class="form-item-set">
+                        <input type="checkbox" class="form-check-input" id="otherResp" name="otherResp">
+                        <label class="form-check-label">Other</label>
+                    </div>
+                    <input class='child' type="submit" value="Continue" style="text-align:center; background-color:#F0DBFF;">
+                </div>
+            </div>
+        </form>
+    </center>
+{% endblock %}

@@ -1,0 +1,39 @@
+:root {
+    --space-unit: 1em;
+    --space-xxs: calc(0.25 * var(--space-unit));
+    --space-xs: calc(0.5 * var(--space-unit));
+    --space-sm: calc(0.75 * var(--space-unit));
+    --space-md: calc(1.25 * var(--space-unit));
+    --space-lg: calc(2 * var(--space-unit));
+    --space-xl: calc(3.25 * var(--space-unit));
+    --space-xxl: calc(5.25 * var(--space-unit));
+}
+
+.input_main {
+    padding: var(--space-xl);
+    outline: solid black 3px;
+}
+
+.nav-item {
+    padding: var(--space-md);
+    outline: solid lightskyblue 3px;
+}
+
+.hello {
+    border: 1px solid black;
+    margin: 1rem;
+    padding: 2rem 2rem;
+}
+
+.parent {
+    border: 1px solid black;
+    margin: 1rem;
+    padding: 2rem 2rem;
+    text-align: center;
+}
+.child {
+    display: inline-block;
+    border: 3px solid red;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}

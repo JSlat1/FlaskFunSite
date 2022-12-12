@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <center>
+    <form>
+        <h3 style="padding:0.5em 0.5em">The way I see it, you have two options:</h3>
+        <div class="form-group">
+            <div class="yes-no-row">
+                <h6>Pick a box, any box...</h6>
+                <div class="yes-no-item-set-top">
+                    <input type="checkbox" class="form-check-input yes-no" id="yesMovie" name="yesMovie">
+                    <label class="yes-no-label">Watch <em>Love Actually</em> later tonight?</label>
+                </div>
+                <div class="yes-no-item-set-bottom">
+                    <input type="checkbox" class="form-check-input yes-no" id="noMovie" name="noMovie">
+                    <label class="yes-no-label">Finish essays before Thanksgiving Break</label>
+                </div>
+                <input class='child' type="submit" value="Continue" style="text-align:center; margin-top: 0.75em; background-color:#F0DBFF;">
+            </div>
+        </div>
+    </form>
+</center>
+</div>
+
+{% endblock %}

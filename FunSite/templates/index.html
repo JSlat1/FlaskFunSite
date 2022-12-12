@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <center>    
+        <div>
+            <h1 class="hello" style="padding-top: 0.4em"> Hello Random Visitor... </h1>
+        </div>
+            <form class='parent' id="inputForm" action="" method="get"> 
+                <p id="Question" class='child'>Might I inquire, what is your name?</p>
+                <div style="padding:0.15em 0.5em;"></div>
+                <input class='child form-control' type="text" name="name_input" placeholder="Name" style="text-align:center;">
+                <div style="padding:0.6em 0.6em;"></div>
+                <input class='child' type="submit" value="Continue" style="text-align:center;">
+            </form>
+    </center>
+{% endblock %}
