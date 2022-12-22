@@ -3,10 +3,11 @@ from flask import request, escape, render_template, redirect, url_for
 import textImage
 from datetime import datetime
 from satellite_functions import satSite
-import git
+#import git
 
 app = Flask(__name__)
 
+'''
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
@@ -18,8 +19,9 @@ def webhook():
         return '', 200
     else:
         return '', 400
+'''
 
-app.register_blueprint(satSite, url_profile="/satSite")
+app.register_blueprint(satSite, url_prefix="/satSite")
 
 responses = {"Yes":"", "No":"",
              "8PM":"", "9PM":"", "Other":""}

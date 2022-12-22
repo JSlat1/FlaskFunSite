@@ -42,14 +42,15 @@ cesiumApiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMGZkMzlkYy0xNDd
 
 def requestTLEData():
   """Retrieves TLE Data from Celestrak"""
-  #url = 'https://celestrak.com/NORAD/elements/gp.php?GROUP=active&FORMAT=tle'
-  #result = urllib.request.urlopen(url)
-  URL = 'https://drive.google.com/file/d/1m0mAGzpeMR0W-BDL5BtKrs0HOZsPIAbX/view?usp=sharing'
-  drivePath = 'https://drive.google.com/uc?export=download&id='+URL.split('/')[-2]
-  result = urllib.request.urlopen(drivePath)
+  url = 'https://celestrak.com/NORAD/elements/gp.php?GROUP=active&FORMAT=tle'
+  result = urllib.request.urlopen(url)
+  #URL = 'https://drive.google.com/file/d/1m0mAGzpeMR0W-BDL5BtKrs0HOZsPIAbX/view?usp=sharing'
+  #drivePath = 'https://drive.google.com/uc?export=download&id='+URL.split('/')[-2]
+  #result = urllib.request.urlopen(drivePath)
   with open(path + '/tle data.txt', 'w') as tleDataFile:
     for line in result.readlines():
-      tleDataFile.write(f"{str(line.decode('utf-8').strip())}\n")
+        #print(line)
+        tleDataFile.write(f"{str(line.decode('utf8').strip())}\n")
     tleDataFile.close()
 
 def createTleList():
@@ -145,7 +146,7 @@ def buildCzml(givenTleList):
   satelliteList = []
   added_sat_ids = []
   remove_these_ids = []
-  print(f"GivenTleList: {givenTleList}")
+  #print(f"GivenTleList: {givenTleList}")
   for tle in givenTleList:
     if (str(tle[0]).strip() != 'LEMUR-2-DUNLOP'):
       sat = satellite(tle,
@@ -171,7 +172,7 @@ def buildCzml(givenTleList):
     czml_obj.remove_satellite(satkey)
 
   czmlString = czml_obj.get_czml().lower()
-  print(f"CzmlString: {czmlString}")
+  #print(f"CzmlString: {czmlString}")
   czmlString = fixCzmlFormat(czmlString)
   with open(path + "/satellites.czml", "w") as satelliteFile:
     satelliteFile.write(czmlString)
@@ -207,17 +208,17 @@ def index(selectionInfo):
   inputList = []
   tlesToCzml = []
   updateViewer = False
-  print(selectionInfo)
+  #print(selectionInfo)
   try:
     selectionInfo = json.loads(selectionInfo)
-    print(selectionInfo)
+    #print(selectionInfo)
   except:
     print("Failed JSON Conversion")
     selectionInfo = ''
   if len(selectionInfo) > 0:
     for val in selectionInfo:
       inputList.append(val)
-      print(val)
+      #print(val)
   if len(inputList) > 0:
     updateViewer = True
     tlesToCzml = []
@@ -242,9 +243,27 @@ global auxcatFrame
 
 fileIndex = 0
 
-'''
+linkDict = {
+    'satcat':'https://planet4589.org/space/gcat/tsv/cat/satcat.tsv',
+    'auxcat':'https://planet4589.org/space/gcat/tsv/cat/auxcat.tsv',
+    'deepcat':'https://planet4589.org/space/gcat/tsv/cat/deepcat.tsv',
+    'deepindex':'https://planet4589.org/space/gcat/tsv/cat/deepindex.tsv',
+    'currentcat':'https://planet4589.org/space/gcat/tsv/derived/currentcat.tsv'
+}
+
+def downloadFromGCAT():
+    for fileToDownload in linkDict.keys():
+        print(fileToDownload)
+        downloadDf = pd.read_csv(linkDict[fileToDownload], sep='\t', on_bad_lines='skip', index_col=False)
+        downloadDf.rename(columns={'#JCAT':'JCAT'},inplace=True)
+        if (fileToDownload != "deepindex"):
+           downloadDf.drop(index=0, inplace=True)
+        else:
+            downloadDf.rename(columns={"# DeepCat   ":"Deepcat"}, inplace=True)
+        downloadDf.to_csv(path + '\CSVs\\' + fileToDownload + '.csv', index=False)
+
 for fileName in fileNameList:
-  with open(path + "/EoC-Final-Project/CSVs/" + fileName + '.csv', 'r') as csvFile:
+  with open(path + "/CSVs/" + fileName + '.csv', 'r') as csvFile:
     if (fileName == 'currentcat'):
       currentFrame = pd.read_csv(csvFile, dtype=str)
     if (fileName == 'satcat'):
@@ -256,8 +275,8 @@ for fileName in fileNameList:
     if (fileName == 'auxcat'):
       auxcatFrame = pd.read_csv(csvFile, dtype=str)
     csvFile.close()
-'''
 
+'''
 auxSheet = client.open("Test").worksheet("Auxcat")
 satSheet = client.open("Test").worksheet("Satcat")
 currSheet = client.open("Test").worksheet("Currentcat")
@@ -275,6 +294,7 @@ currentFrame = pd.DataFrame(data=currVals[1:len(currVals)-1], columns = currVals
 deepcatFrame = pd.DataFrame(data=deepVals[1:len(deepVals)-1], columns = deepVals[0])
 deepIndexFrame = pd.DataFrame(data=deepIndVals[1:len(deepIndVals)-1], columns = deepIndVals[0])
 auxcatFrame = pd.DataFrame(data=auxVals[1:len(auxVals)-1], columns = auxVals[0])
+'''
 
 # find active objects
 activeMask = currentFrame['Active'].str.find('A') != -1
@@ -282,7 +302,7 @@ activeFrame = currentFrame.loc[activeMask, :]
 
 # create list of columns in active frame
 activeFrameColumns = list(activeFrame.columns)
-print(activeFrameColumns)
+#print(activeFrameColumns)
 
 # Fix NaN values from NNA/NNA A/NNA C to pd.nan (AKA Pandas null value)
 fixMask = activeFrame['Satcat'].str.find('NNA') != -1
@@ -316,21 +336,22 @@ for col in fullFrameColumns:
 fullFrameColumns = col_list
 
 # print column lists
-print(fullFrameColumns)
-print(dif_col_list)
+#print(fullFrameColumns)
+#print(dif_col_list)
 
 # add JCAT to dif_col_list
 dif_col_list.append('JCAT')
 
-print(satcatFrame.head())
-print(auxcatFrame.head())
-print(satcatFrame.head())
+#print(satcatFrame.head())
+#print(auxcatFrame.head())
+#print(satcatFrame.head())
 #satAuxFrame = pd.concat([auxcatFrame, satcatFrame], axis=0)
 satAuxFrame = pd.merge(satcatFrame, auxcatFrame, how='outer')
 
 # merge activeFrame with satcatFrame
 global df_final
 df_final = pd.merge(activeFrame, satAuxFrame[dif_col_list], how='left', on='JCAT', suffixes=["", "_duplicate"])
+df_final.set_index('JCAT', inplace=True)
 
 # Create TLE Data List
 createTleList()
@@ -342,11 +363,11 @@ combineWithTLEs(tleDataList)
 # show final dataframe
 print(df_final.columns)
 
-'''
-satSite = Blueprint("satellites", __name__, static_folder = "static", template_folder = "tempaltes")
+
+satSite = Blueprint("satellites", __name__, static_folder = "static", template_folder = "templates")
 
 @satSite.route("/satellites", methods=['GET'], defaults={'selectionInfo':''})
-@satSite.route("/", methods=['GET'])
+@satSite.route("/", methods=['GET'], defaults={'selectionInfo':''})
 def satellites(selectionInfo):
   shownCzml = ''
   inputList = []
@@ -374,4 +395,3 @@ def satellites(selectionInfo):
     inputList=[]
 
   return render_template('sat_index.html', df_final=df_final, updateViewer=str(updateViewer), shownCzml=shownCzml)
-'''
