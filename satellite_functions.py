@@ -47,7 +47,7 @@ def requestTLEData():
   #URL = 'https://drive.google.com/file/d/1m0mAGzpeMR0W-BDL5BtKrs0HOZsPIAbX/view?usp=sharing'
   #drivePath = 'https://drive.google.com/uc?export=download&id='+URL.split('/')[-2]
   #result = urllib.request.urlopen(drivePath)
-  with open(path + '/tle data.txt', 'w') as tleDataFile:
+  with open(path + '/FunSite/tle data.txt', 'w') as tleDataFile:
     for line in result.readlines():
         #print(line)
         tleDataFile.write(f"{str(line.decode('utf8').strip())}\n")
@@ -56,7 +56,7 @@ def requestTLEData():
 def createTleList():
   requestTLEData()
   # get tle data text file
-  with open(path + "/tle data.txt", "r") as tledatafile:
+  with open(path + "/FunSite/tle data.txt", "r") as tledatafile:
       lineList = tledatafile.readlines()
   tledatafile.close()
 

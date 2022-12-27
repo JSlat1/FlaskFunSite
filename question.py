@@ -91,7 +91,7 @@ def planPage():
         return render_template("yesNo.html")
 
 def appendFakeName():
-    with open("responses.txt", "a") as resp:
+    with open("/home/jackslat/Funsite/responses.txt", "a") as resp:
         curName = nameList[len(nameList)-1]
         resp.write(f"FakeName: {curName}\n")
         resp.close()
