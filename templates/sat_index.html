@@ -46,31 +46,33 @@
             <button id="submitButton" style="background-color:ghostWhite" onclick='sendData()'>Plot Selected</button>
           </div>
           <h6>ex. Search SPXS for SpaceX Satellites</h6>
-          <table id="example" class="display" style="width:100%">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Satcat Code</th>
-                <th>Owner</th>
-                <th>State</th>
-                <th>Launch Date</th>
-                <th>Status</th>
-              </tr>
-            <tbody>
-              {% for key,value in df_final.iterrows() %}
-                <tr>
-                  <td></td>
-                  <td>{{value['Name']}}</td>
-                  <td>{{value['Satcat']}}</td>
-                  <td>{{value['Owner']}}</td>
-                  <td>{{value['State']}}</td>
-                  <td>{{value['LDate']}}</td>
-                  <td>{{value['ExpandedStatus']}}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <div style="background-color:whiteSmoke; padding: 1em 1em 1em 1em; border:0.5px solid black">
+              <table id="example" class="display" style="width:100%">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Satcat Code</th>
+                    <th>Owner</th>
+                    <th>State</th>
+                    <th>Launch Date</th>
+                    <th>Status</th>
+                  </tr>
+                <tbody>
+                  {% for key,value in df_final.iterrows() %}
+                    <tr>
+                      <td></td>
+                      <td>{{value['Name']}}</td>
+                      <td>{{value['Satcat']}}</td>
+                      <td>{{value['Owner']}}</td>
+                      <td>{{value['State']}}</td>
+                      <td>{{value['LDate']}}</td>
+                      <td>{{value['ExpandedStatus']}}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
         </center>
       </div>
     </center>

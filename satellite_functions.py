@@ -1,32 +1,32 @@
 from flask import Flask
 from flask import request, escape, render_template, redirect, url_for, abort, jsonify, Blueprint
-
 import urllib.request
 import os
 import json
 from satellite_czml import satellite_czml
 from satellite_czml import satellite
 import random
-from datetime import datetime, timedelta
-import json
+from datetime import datetime
 import czml
 import pandas as pd
 import numpy as np
 import functools
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-from pydrive2.drive import GoogleDrive
-from pydrive2.auth import GoogleAuth
+#import gspread
+#from oauth2client.service_account import ServiceAccountCredentials
+#from pydrive2.drive import GoogleDrive
+#from pydrive2.auth import GoogleAuth
 
 # Get current working directory
 path = os.getcwd()
 
+'''
 credential = ServiceAccountCredentials.from_json_keyfile_name("credentials.json",
     ["https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"])
 client = gspread.authorize(credential)
+'''
 
 ########################################################################################
 #Derive the id from the google drive shareable link.
@@ -263,7 +263,7 @@ def downloadFromGCAT():
         downloadDf.to_csv(path + '\CSVs\\' + fileToDownload + '.csv', index=False)
 
 for fileName in fileNameList:
-  with open(path + "/CSVs/" + fileName + '.csv', 'r') as csvFile:
+  with open(path + "/FunSite/CSVs/" + fileName + '.csv', 'r') as csvFile:
     if (fileName == 'currentcat'):
       currentFrame = pd.read_csv(csvFile, dtype=str)
     if (fileName == 'satcat'):
@@ -368,6 +368,7 @@ satSite = Blueprint("satellites", __name__, static_folder = "static", template_f
 
 @satSite.route("/satellites", methods=['GET'], defaults={'selectionInfo':''})
 @satSite.route("/", methods=['GET'], defaults={'selectionInfo':''})
+@satSite.route("/<string:selectionInfo>", methods=['GET'])
 def satellites(selectionInfo):
   shownCzml = ''
   inputList = []

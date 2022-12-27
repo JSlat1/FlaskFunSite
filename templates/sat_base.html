@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  
+
   <head>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <!-- Required meta tags -->
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Elements of Computing II Final Project">
     <meta name="author" content="Jack Slattery">
-    
+
     <title>Elements of Computing Final Project</title>
 
     <!-- Bootstrap CSS -->
@@ -18,7 +18,7 @@
     <!-- Include the CesiumJS JavaScript and CSS files -->
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.92/Build/Cesium/Cesium.js"></script>
     <link href="https://cesium.com/downloads/cesiumjs/releases/1.92/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-    
+
     <!-- Include the JS DataTables Imports -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -66,7 +66,7 @@
           scrollY: 300,
           scrollX: true,
           scrollCollapse: true,
-          paging: false,
+          pagingType: 'full_numbers',
           fixedColumns: {
             left: 2
           },
@@ -98,12 +98,12 @@
             console.log("Selected: " + data[i][2]);
             satList.push(data[i][2]);
           }
-          urlGet = "/" + JSON.stringify(satList)
+          urlGet = "/satSite/" + JSON.stringify(satList)
           location.href = urlGet;
         };
 
     });
-    
+
   </script>
 </html>
 
